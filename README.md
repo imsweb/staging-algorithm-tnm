@@ -59,7 +59,7 @@ discrimator values.  Schemas include the following information:
 
 - schema identifier (i.e. "prostate")
 - algorithm identifier (i.e. "tnm")
-- algorithm version (i.e. "02.05.50")
+- algorithm version (i.e. "1.8")
 - name
 - title, subtitle, description and notes
 - schema selection criteria
@@ -87,7 +87,7 @@ Tables include the following information:
 
 - table identifier (i.e. "ajcc7_stage")
 - algorithm identifier (i.e. "tnm")
-- algorithm version (i.e. "02.05.50")
+- algorithm version (i.e. "1.8")
 - name
 - title, subtitle, description, notes and footnotes
 - list of column definitions
