@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2015 Information Management Services, Inc.
  */
-package com.imsweb.staging;
+package com.imsweb.staging.tnm.update;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
 import org.junit.Test;
 
 import com.imsweb.decisionengine.ColumnDefinition;
+import com.imsweb.staging.Staging;
+import com.imsweb.staging.StagingDataProvider;
+import com.imsweb.staging.StagingFileDataProvider;
 import com.imsweb.staging.entities.StagingColumnDefinition;
 import com.imsweb.staging.entities.StagingMapping;
 import com.imsweb.staging.entities.StagingRange;
