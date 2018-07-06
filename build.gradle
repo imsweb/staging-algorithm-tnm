@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    compile 'com.imsweb:staging-client-java:4.0'
+    compile 'com.imsweb:staging-client-java:4.1'
 
     testCompile 'junit:junit:4.12'
     testCompile 'com.squareup.retrofit2:retrofit:2.4.0'
