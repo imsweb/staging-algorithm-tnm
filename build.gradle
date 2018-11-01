@@ -1,5 +1,5 @@
 plugins {
-    id 'java-library'
+    id 'java'
     id 'checkstyle'
     id 'findbugs'
     id 'com.bmuschko.nexus' version '2.3.1'
@@ -7,7 +7,7 @@ plugins {
 }
 
 group = 'com.imsweb'
-version = '1.9.1'
+version = '1.9'
 description = 'TNM algorithm for the java-staging-client'
 
 // UTF-8 for all compilation tasks
@@ -26,11 +26,11 @@ repositories {
 }
 
 dependencies {
-    api 'com.imsweb:staging-client-java:4.2'
+    compile 'com.imsweb:staging-client-java:4.1'
 
-    testImplementation 'junit:junit:4.12'
-    testImplementation 'com.squareup.retrofit2:retrofit:2.4.0'
-    testImplementation 'com.squareup.retrofit2:converter-jackson:2.4.0'
+    testCompile 'junit:junit:4.12'
+    testCompile 'com.squareup.retrofit2:retrofit:2.4.0'
+    testCompile 'com.squareup.retrofit2:converter-jackson:2.4.0'
 }
 
 jar {
