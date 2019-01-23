@@ -26,7 +26,7 @@ repositories {
 }
 
 dependencies {
-    api 'com.imsweb:staging-client-java:4.3'
+    api 'com.imsweb:staging-client-java:4.5'
 
     testImplementation 'junit:junit:4.12'
     testImplementation 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -56,7 +56,7 @@ checkstyle {
 }
 
 spotbugs {
-    toolVersion = '3.1.8'
+    toolVersion = '3.1.11'
     excludeFilter = file('config/spotbugs/spotbugs-exclude.xml')
 }
 
@@ -65,7 +65,7 @@ if (version.endsWith('-SNAPSHOT'))
     gradle.startParameter.excludedTaskNames += 'closeAndReleaseRepository'
 
 wrapper {
-    gradleVersion = '4.10.2'
+    gradleVersion = '5.1.1'
     distributionType = Wrapper.DistributionType.ALL
 }
 
