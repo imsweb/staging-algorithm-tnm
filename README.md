@@ -1,6 +1,6 @@
 # staging-algorithm-tnm
 
-[![CircleCI](https://circleci.com/gh/imsweb/staging-algorithm-tnm.svg?style=svg)](https://circleci.com/gh/imsweb/staging-algorithm-tnm)
+[![CircleCI](https://circleci.com/gh/imsweb/staging-algorithm-tnm.svg?style=shield)](https://circleci.com/gh/imsweb/staging-algorithm-tnm)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imsweb/staging-algorithm-tnm/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imsweb/staging-algorithm-tnm)
 
 TNM is a widely accepted system of cancer staging. TNM stands for Tumor, Nodes, and Metastasis. T is assigned based on the extent of involvement at 
