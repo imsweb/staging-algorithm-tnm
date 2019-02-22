@@ -11,12 +11,14 @@ group = 'com.imsweb'
 version = '1.9.1'
 description = 'TNM algorithm for the java-staging-client'
 
-// UTF-8 for all compilation tasks
-[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
-
-// fail the build if there are compiler warnings
 tasks.withType(JavaCompile) {
-    options.compilerArgs << "-Xlint:all" << "-Xlint:-processing" << "-Xlint:-serial" << "-Werror"
+    options.encoding = 'UTF-8'                         // UTF-8 for all compilation tasks
+    options.compilerArgs << "-Xlint:all" << "-Werror"  // fail the build if there are compiler warnings
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 repositories {
