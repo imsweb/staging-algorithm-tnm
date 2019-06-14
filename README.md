@@ -27,14 +27,14 @@ Download [the latest JAR][1] or grab via Maven:
 <dependency>
     <groupId>com.imsweb</groupId>
     <artifactId>staging-algorithm-tnm</artifactId>
-    <version>1.9.1</version>
+    <version>1.9.2</version>
 </dependency>
 ```
 
 or via Gradle:
 
 ```groovy
-compile 'com.imsweb.com:staging-algorithm-tnm:1.9.1'
+compile 'com.imsweb.com:staging-algorithm-tnm:1.9.2'
 ```
 
 ## Usage
