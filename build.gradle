@@ -2,14 +2,17 @@ plugins {
     id 'java-library'
     id 'checkstyle'
     id "com.github.spotbugs" version "4.2.4"
-    id 'com.bmuschko.nexus' version '2.3.1'
+    id 'maven-publish'
+    id 'signing'
     id "io.codearte.nexus-staging" version "0.21.2"  // logs into Sonotype OSS and does a "Close" and "Release"
     id 'com.adarshr.test-logger' version '2.0.0'
     id "com.github.ben-manes.versions" version "0.28.0"
+    id "org.owasp.dependencycheck" version "5.3.2.1"
+    id "net.ossindex.audit" version "0.4.11"
 }
 
 group = 'com.imsweb'
-version = '1.9.2'
+version = '1.9.3-SNAPSHOT'
 description = 'TNM algorithm for the java-staging-client'
 
 tasks.withType(JavaCompile) {
@@ -20,6 +23,9 @@ tasks.withType(JavaCompile) {
 java {
     sourceCompatibility = JavaVersion.VERSION_1_8
     targetCompatibility = JavaVersion.VERSION_1_8
+
+    withJavadocJar()
+    withSourcesJar()
 }
 
 repositories {
@@ -40,7 +46,7 @@ dependencies {
 jar {
     manifest {
         attributes('Implementation-Title': project.name,
-                'Implementation-Version': version,
+                'Implementation-Version': archiveVersion,
                 'Implementation-Vendor': group,
                 'Created-By': System.properties['java.vm.version'] + ' (' + System.properties['java.vm.vendor'] + ')',
                 'Built-By': System.getProperty('user.name'),
@@ -51,59 +57,112 @@ jar {
     }
 }
 
-test {
-    maxHeapSize = "1g"
-}
-
-testlogger {
-    theme 'mocha'
-}
-
 checkstyle {
+    toolVersion = '8.29'
     configFile = file('config/checkstyle/checkstyle.xml')
 }
 
 spotbugs {
-    toolVersion = '4.0.3'
     excludeFilter = file('config/spotbugs/spotbugs-exclude.xml')
 }
 
-// don't try to release a snapshot to a non-snapshot repository, that won't work anyway
-if (version.endsWith('-SNAPSHOT'))
-    gradle.startParameter.excludedTaskNames += 'closeAndReleaseRepository'
-
-wrapper {
-    gradleVersion = '6.4.1'
-    distributionType = Wrapper.DistributionType.ALL
+dependencyUpdates {
+    // ignore alpha, beta, etc. versions
+    rejectVersionIf { selection ->
+        isNonStable(selection.candidate.version)
+    }
 }
 
-modifyPom {
-    project {
-        name 'TNM Staging Algorithm'
-        description 'TNM algorithm for the staging-client-java'
-        url 'https://github.com/imsweb/staging-algorithm-tnm'
-        inceptionYear '2015'
+// OWASP check (https://jeremylong.github.io/DependencyCheck/index.html)
+dependencyCheck {
+    failOnError = true
+}
 
-        scm {
-            url 'https://github.com/imsweb/staging-algorithm-tnm'
-            connection 'scm:https://github.com/imsweb/staging-algorithm-tnm.git'
-            developerConnection 'scm:git@github.com:imsweb/staging-algorithm-tnm.git'
-        }
+// don't try to release a snapshot to a non-snapshot repository, that won't work anyway
+if (version.endsWith('-SNAPSHOT')) {
+    gradle.startParameter.excludedTaskNames += 'signMavenJavaPublication'
+    gradle.startParameter.excludedTaskNames += 'closeAndReleaseRepository'
+}
 
-        licenses {
-            license {
-                name 'A modified BSD License (BSD)'
-                url 'https://github.com/imsweb/staging-algorithm-tnm/blob/master/LICENSE'
-                distribution 'repo'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'staging-algorithm-tnm'
+            from components.java
+            versionMapping {
+                usage('java-api') {
+                    fromResolutionOf('runtimeClasspath')
+                }
+                usage('java-runtime') {
+                    fromResolutionResult()
+                }
             }
-        }
+            pom {
+                name = 'TNM Staging Algorithm'
+                description = 'TNM algorithm for the staging-client-java'
+                url = 'https://github.com/imsweb/staging-algorithm-tnm'
+                inceptionYear = '2015'
 
-        developers {
-            developer {
-                id 'ctmay4'
-                name 'Chuck May'
-                email 'mayc@imsweb.com'
+                licenses {
+                    license {
+                        name = 'A modified BSD License (BSD)'
+                        url = 'https://github.com/imsweb/staging-algorithm-tnm/blob/master/LICENSE'
+                        distribution = 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id = 'ctmay4'
+                        name = 'Chuck May'
+                        email = 'mayc@imsweb.com'
+                    }
+                }
+
+                scm {
+                    url = 'https://github.com/imsweb/staging-algorithm-tnm'
+                    connection = 'scm:https://github.com/imsweb/staging-algorithm-tnm.git'
+                    developerConnection = 'scm:git@github.com:imsweb/staging-algorithm-tnm.git'
+                }
             }
         }
     }
+    repositories {
+        maven {
+            def releasesRepoUrl = "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            def snapshotsRepoUrl = "https://oss.sonatype.org/content/repositories/snapshots"
+            url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+
+            credentials {
+                username = project.findProperty('nexusUsername') ?: ''
+                password = project.findProperty('nexusPassword') ?: ''
+            }
+        }
+    }
+}
+
+signing {
+    def signingKey = project.findProperty('signingKey') ?: ''
+    def signingPassword = project.findProperty('signingPassword') ?: ''
+
+    useInMemoryPgpKeys(signingKey, signingPassword)
+
+    sign publishing.publications.mavenJava
+}
+
+javadoc {
+    if (JavaVersion.current().isJava9Compatible()) {
+        options.addBooleanOption('html5', true)
+    }
+}
+
+// configure nexus staging plugin
+nexusStaging {
+    numberOfRetries = 50
+    delayBetweenRetriesInMillis = 5000
+}
+
+wrapper {
+    gradleVersion = '6.5'
+    distributionType = Wrapper.DistributionType.ALL
 }
