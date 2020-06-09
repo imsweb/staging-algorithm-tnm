@@ -1,7 +1,7 @@
 plugins {
     id 'java-library'
     id 'checkstyle'
-    id "com.github.spotbugs" version "4.2.4"
+    id "com.github.spotbugs" version "4.3.0"
     id 'maven-publish'
     id 'signing'
     id "io.codearte.nexus-staging" version "0.21.2"  // logs into Sonotype OSS and does a "Close" and "Release"
@@ -36,6 +36,8 @@ repositories {
 }
 
 dependencies {
+    spotbugs 'com.github.spotbugs:spotbugs:4.0.4'
+
     api 'com.imsweb:staging-client-java:4.7'
 
     testImplementation 'junit:junit:4.13'
