@@ -1,18 +1,18 @@
 plugins {
     id 'java-library'
     id 'checkstyle'
-    id "com.github.spotbugs" version "4.3.0"
+    id "com.github.spotbugs" version "4.4.4"
     id 'maven-publish'
     id 'signing'
     id "io.codearte.nexus-staging" version "0.21.2"  // logs into Sonotype OSS and does a "Close" and "Release"
-    id 'com.adarshr.test-logger' version '2.0.0'
+    id 'com.adarshr.test-logger' version '2.1.0'
     id "com.github.ben-manes.versions" version "0.28.0"
     id "org.owasp.dependencycheck" version "5.3.2.1"
     id "net.ossindex.audit" version "0.4.11"
 }
 
 group = 'com.imsweb'
-version = '1.9.3-SNAPSHOT'
+version = '1.9.3'
 description = 'TNM algorithm for the java-staging-client'
 
 tasks.withType(JavaCompile) {
@@ -36,9 +36,9 @@ repositories {
 }
 
 dependencies {
-    spotbugs 'com.github.spotbugs:spotbugs:4.0.4'
+    spotbugs 'com.github.spotbugs:spotbugs:4.0.6'
 
-    api 'com.imsweb:staging-client-java:4.7'
+    api 'com.imsweb:staging-client-java:4.8'
 
     testImplementation 'junit:junit:4.13'
     testImplementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -66,6 +66,12 @@ checkstyle {
 
 spotbugs {
     excludeFilter = file('config/spotbugs/spotbugs-exclude.xml')
+}
+
+def isNonStable = { String version ->
+    def stableKeyword = ['RELEASE', 'FINAL', 'GA'].any { qualifier -> version.toUpperCase().contains(qualifier) }
+    def regex = /^[0-9,.v-]+$/
+    return !stableKeyword && !(version ==~ regex)
 }
 
 dependencyUpdates {
@@ -165,6 +171,6 @@ nexusStaging {
 }
 
 wrapper {
-    gradleVersion = '6.5'
+    gradleVersion = '6.5.1'
     distributionType = Wrapper.DistributionType.ALL
 }
