@@ -16,14 +16,14 @@ import java.util.stream.Collectors;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.imsweb.decisionengine.Output;
+import com.imsweb.decisionengine.Schema;
+import com.imsweb.decisionengine.Table;
 import com.imsweb.staging.SchemaLookup;
 import com.imsweb.staging.Staging;
 import com.imsweb.staging.StagingData;
 import com.imsweb.staging.StagingFileDataProvider;
-import com.imsweb.staging.tnm.update.StagingTest;
-import com.imsweb.staging.entities.StagingSchema;
-import com.imsweb.staging.entities.StagingSchemaOutput;
-import com.imsweb.staging.entities.StagingTable;
+import com.imsweb.staging.StagingTest;
 import com.imsweb.staging.tnm.TnmDataProvider.TnmVersion;
 
 import static org.junit.Assert.assertEquals;
@@ -82,7 +82,7 @@ public class TnmStagingTest extends StagingTest {
     @Test
     public void testSchemaSelection() {
         // test bad values
-        List<StagingSchema> lookup = _STAGING.lookupSchema(new SchemaLookup());
+        List<Schema> lookup = _STAGING.lookupSchema(new SchemaLookup());
         assertEquals(0, lookup.size());
 
         lookup = _STAGING.lookupSchema(new TnmSchemaLookup("XXX", "YYY"));
@@ -113,7 +113,7 @@ public class TnmStagingTest extends StagingTest {
         // test valid combination that requires a discriminator but is not supplied one
         lookup = _STAGING.lookupSchema(new TnmSchemaLookup("C111", "8200"));
         assertEquals(2, lookup.size());
-        for (StagingSchema schema : lookup)
+        for (Schema schema : lookup)
             assertEquals(new HashSet<>(Collections.singletonList("ssf25")), schema.getSchemaDiscriminators());
 
         // test valid combination that requires discriminator and a good discriminator is supplied
@@ -121,7 +121,7 @@ public class TnmStagingTest extends StagingTest {
         schemaLookup.setInput(TnmStagingData.SSF25_KEY, "010");
         lookup = _STAGING.lookupSchema(schemaLookup);
         assertEquals(1, lookup.size());
-        for (StagingSchema schema : lookup)
+        for (Schema schema : lookup)
             assertEquals(new HashSet<>(Collections.singletonList("ssf25")), schema.getSchemaDiscriminators());
         assertEquals("nasopharynx", lookup.get(0).getId());
 
@@ -157,7 +157,7 @@ public class TnmStagingTest extends StagingTest {
     @Test
     public void testLookupCache() {
         // do the same lookup twice
-        List<StagingSchema> lookup = _STAGING.lookupSchema(new TnmSchemaLookup("C629", "9231"));
+        List<Schema> lookup = _STAGING.lookupSchema(new TnmSchemaLookup("C629", "9231"));
         assertEquals(1, lookup.size());
         assertEquals("testis", lookup.get(0).getId());
 
@@ -414,7 +414,7 @@ public class TnmStagingTest extends StagingTest {
     @Test
     public void testLookupInputs() {
         // test valid combinations that do not require a discriminator
-        StagingSchema schema = _STAGING.getSchema("prostate");
+        Schema schema = _STAGING.getSchema("prostate");
         TnmSchemaLookup lookup = new TnmSchemaLookup("C619", "8000");
         assertTrue(_STAGING.getInputs(schema, lookup.getInputs()).contains("clin_t"));
 
@@ -425,14 +425,14 @@ public class TnmStagingTest extends StagingTest {
     @Test
     public void testLookupOutputs() {
         TnmSchemaLookup lookup = new TnmSchemaLookup("C680", "8590");
-        List<StagingSchema> lookups = _STAGING.lookupSchema(lookup);
+        List<Schema> lookups = _STAGING.lookupSchema(lookup);
         assertEquals(1, lookups.size());
 
-        StagingSchema schema = _STAGING.getSchema(lookups.get(0).getId());
+        Schema schema = _STAGING.getSchema(lookups.get(0).getId());
         assertEquals("urethra", schema.getId());
 
         // build list of output keys
-        Set<String> definedOutputs = schema.getOutputs().stream().map(StagingSchemaOutput::getKey).collect(Collectors.toSet());
+        Set<String> definedOutputs = schema.getOutputs().stream().map(Output::getKey).collect(Collectors.toSet());
 
         // test without context
         assertEquals(definedOutputs, _STAGING.getOutputs(schema));
@@ -443,7 +443,7 @@ public class TnmStagingTest extends StagingTest {
 
     @Test
     public void testRangeParsing() {
-        StagingTable table = _STAGING.getTable("path_n_daj");
+        Table table = _STAGING.getTable("path_n_daj");
 
         assertNotNull(table);
         assertEquals("p0I-", table.getRawRows().get(2).get(0));
@@ -453,7 +453,7 @@ public class TnmStagingTest extends StagingTest {
 
     @Test
     public void testEncoding() {
-        StagingTable table = _STAGING.getTable("thyroid_t_6166");
+        Table table = _STAGING.getTable("thyroid_t_6166");
 
         assertNotNull(table);
 
