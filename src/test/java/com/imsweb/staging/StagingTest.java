@@ -5,7 +5,6 @@ package com.imsweb.staging;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -16,13 +15,11 @@ import java.util.stream.Collectors;
 
 import org.junit.Test;
 
-import com.imsweb.decisionengine.ColumnDefinition;
-import com.imsweb.decisionengine.Input;
-import com.imsweb.decisionengine.Mapping;
-import com.imsweb.decisionengine.Range;
-import com.imsweb.decisionengine.Schema;
-import com.imsweb.decisionengine.Table;
-import com.imsweb.decisionengine.TableRow;
+import com.imsweb.staging.entities.ColumnDefinition;
+import com.imsweb.staging.entities.Input;
+import com.imsweb.staging.entities.Mapping;
+import com.imsweb.staging.entities.Schema;
+import com.imsweb.staging.entities.Table;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -181,7 +178,7 @@ public abstract class StagingTest {
 
                     // make sure the input key matches the an input column
                     if (!inputKeys.contains(input.getKey()))
-                        errors.add("Input key " + schemaId + ":" + input.getKey() + " does not match validation table " + table.getId() + ": " + inputKeys.toString());
+                        errors.add("Input key " + schemaId + ":" + input.getKey() + " does not match validation table " + table.getId() + ": " + inputKeys);
                 }
             }
         }
@@ -237,39 +234,4 @@ public abstract class StagingTest {
         }
     }
 
-    /**
-     * Return the input length from a specified table
-     * @param tableId table indentifier
-     * @param key input key
-     * @return null if no length couild be determined, or the length
-     */
-    protected Integer getInputLength(String tableId, String key) {
-        Table table = _STAGING.getTable(tableId);
-        Integer length = null;
-
-        // loop over each row
-        for (TableRow row : table.getTableRows()) {
-            List<Range> ranges = row.getInputs().get(key);
-
-            for (Range range : ranges) {
-                String low = range.getLow();
-                String high = range.getHigh();
-
-                if (range.matchesAll() || low.isEmpty())
-                    continue;
-
-                if (low.startsWith("{{") && low.contains(Staging.CTX_YEAR_CURRENT))
-                    low = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-                if (high.startsWith("{{") && high.contains(Staging.CTX_YEAR_CURRENT))
-                    high = String.valueOf(Calendar.getInstance().get(Calendar.YEAR));
-
-                if (length != null && (low.length() != length || high.length() != length))
-                    throw new IllegalStateException("Inconsistent lengths in table " + tableId + " for key " + key);
-
-                length = low.length();
-            }
-        }
-
-        return length;
-    }
 }
