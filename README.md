@@ -27,14 +27,14 @@ Download [the latest JAR][1] or grab via Maven:
 <dependency>
     <groupId>com.imsweb</groupId>
     <artifactId>staging-algorithm-tnm</artifactId>
-    <version>1.9.5</version>
+    <version>1.9.6</version>
 </dependency>
 ```
 
 or via Gradle:
 
 ```groovy
-compile 'com.imsweb.com:staging-algorithm-tnm:1.9.5'
+compile 'com.imsweb.com:staging-algorithm-tnm:1.9.6'
 ```
 
 ## Usage
@@ -77,7 +77,7 @@ Set<String> schemaIds = staging.getSchemaIds();
 To get a single schema by identifer,
 
 ```java
-StagingSchema schema = staging.getSchema("prostate");
+Schema schema = staging.getSchema("prostate");
 ```
 
 ### Tables
@@ -108,7 +108,7 @@ Set<String> tableIds = staging.getInvolvedTables("prostate");
 To get a single table by identifer,
 
 ```java
-StagingTable table = staging.getTable("ajcc7_stage");
+Table table = staging.getTable("ajcc7_stage");
 ```
 
 ### Lookup a schema
@@ -119,7 +119,7 @@ customized for the specific inputs needed to lookup a schema.
 For Collaborative Staging, use the `TnmSchemaLookup` object.  Here is a lookup based on site and histology.
 
 ```java
-List<StagingSchema> lookup = staging.lookupSchema(new TnmSchemaLookup("C629", "9231"));
+List<Schema> lookup = staging.lookupSchema(new TnmSchemaLookup("C629", "9231"));
 assertEquals(1, lookup.size());
 assertEquals("testis", lookup.get(0).getId());
 ```
