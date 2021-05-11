@@ -447,8 +447,8 @@ public class TnmStagingTest extends StagingTest {
 
         assertNotNull(table);
         assertEquals("p0I-", table.getRawRows().get(2).get(0));
-        assertEquals("p0I-", table.getTableRows().get(2).getInputs().get("path_n").get(0).getLow());
-        assertEquals("p0I-", table.getTableRows().get(2).getInputs().get("path_n").get(0).getHigh());
+        assertEquals("p0I-", table.getTableRows().get(2).getColumnInput("path_n").get(0).getLow());
+        assertEquals("p0I-", table.getTableRows().get(2).getColumnInput("path_n").get(0).getHigh());
     }
 
     @Test
