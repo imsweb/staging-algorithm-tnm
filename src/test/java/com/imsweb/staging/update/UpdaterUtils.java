@@ -24,8 +24,8 @@ import okhttp3.Request;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
-import com.imsweb.staging.entities.StagingSchema;
-import com.imsweb.staging.entities.StagingTable;
+import com.imsweb.staging.entities.impl.StagingSchema;
+import com.imsweb.staging.entities.impl.StagingTable;
 import com.imsweb.staging.util.Stopwatch;
 
 /**
@@ -43,7 +43,7 @@ public final class UpdaterUtils {
 
     private static final String _BASE_DIRECTORY = "c:/tmp/algorithms";
 
-    private static Pattern _ID_CHARACTERS = Pattern.compile("[a-z0-9_]+");
+    private static final Pattern _ID_CHARACTERS = Pattern.compile("[a-z0-9_]+");
 
     @SuppressWarnings("ConstantConditions")
     public static void update(String algorithm, String version) throws IOException {
