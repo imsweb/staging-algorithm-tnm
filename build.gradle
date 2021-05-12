@@ -29,15 +29,12 @@ java {
 
 repositories {
     mavenCentral()
-    maven {
-        url 'https://oss.sonatype.org/content/repositories/snapshots/'
-    }
 }
 
 dependencies {
     spotbugs 'com.github.spotbugs:spotbugs:4.2.3'
 
-    api 'com.imsweb:staging-client-java:6.0.9-SNAPSHOT'
+    api 'com.imsweb:staging-client-java:6.0.0'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.squareup.retrofit2:retrofit:2.9.0'
