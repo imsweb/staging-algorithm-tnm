@@ -19,11 +19,13 @@ import org.junit.Test;
 import com.imsweb.staging.Staging;
 import com.imsweb.staging.StagingFileDataProvider;
 import com.imsweb.staging.StagingTest;
+import com.imsweb.staging.entities.Input;
 import com.imsweb.staging.entities.Output;
 import com.imsweb.staging.entities.Schema;
 import com.imsweb.staging.entities.SchemaLookup;
 import com.imsweb.staging.entities.StagingData;
 import com.imsweb.staging.entities.Table;
+import com.imsweb.staging.entities.impl.StagingMetadata;
 import com.imsweb.staging.tnm.TnmDataProvider.TnmVersion;
 
 import static org.junit.Assert.assertEquals;
@@ -465,6 +467,20 @@ public class TnmStagingTest extends StagingTest {
         // converting to other encoding should change the text
         assertNotEquals(table.getNotes(), new String(table.getNotes().getBytes(StandardCharsets.ISO_8859_1), StandardCharsets.ISO_8859_1));
         assertNotEquals(table.getNotes(), new String(table.getNotes().getBytes(StandardCharsets.US_ASCII), StandardCharsets.US_ASCII));
+    }
+
+    @Test
+    public void testMetadata() {
+        Schema urethra = _STAGING.getSchema("urethra");
+        assertNotNull(urethra);
+
+        Input ssf1 = urethra.getInputMap().get("ssf1");
+        assertNotNull(ssf1);
+
+        assertEquals(ssf1.getMetadata().size(), 3);
+        assertTrue(ssf1.getMetadata().contains(new StagingMetadata("COC_REQUIRED")));
+        assertTrue(ssf1.getMetadata().contains(new StagingMetadata("CCCR_REQUIRED")));
+        assertTrue(ssf1.getMetadata().contains(new StagingMetadata("SEER_REQUIRED")));
     }
 
 }
