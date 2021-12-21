@@ -5,13 +5,13 @@ plugins {
     id 'maven-publish'
     id 'signing'
     id "io.codearte.nexus-staging" version "0.30.0"  // logs into Sonotype OSS and does a "Close" and "Release"
-    id 'com.adarshr.test-logger' version '3.0.0'
+    id 'com.adarshr.test-logger' version '3.1.0'
     id "com.github.ben-manes.versions" version "0.39.0"
-    id 'org.sonatype.gradle.plugins.scan' version '2.0.10'
+    id 'org.sonatype.gradle.plugins.scan' version '2.2.2'
 }
 
 group = 'com.imsweb'
-version = '1.9.7'
+version = '1.9.8'
 description = 'TNM algorithm for the java-staging-client'
 
 tasks.withType(JavaCompile) {
@@ -34,7 +34,10 @@ repositories {
 dependencies {
     spotbugs 'com.github.spotbugs:spotbugs:4.2.3'
 
-    api 'com.imsweb:staging-client-java:6.1.0'
+    api 'com.imsweb:staging-client-java:6.2.0'
+
+    testImplementation 'org.slf4j:slf4j-api:1.7.32'
+    testImplementation 'org.slf4j:slf4j-simple:1.7.32'
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -157,6 +160,7 @@ signing {
 javadoc {
     if (JavaVersion.current().isJava9Compatible()) {
         options.addBooleanOption('html5', true)
+        options.addStringOption('Xdoclint:none', '-quiet')
     }
 }
 
@@ -167,6 +171,6 @@ nexusStaging {
 }
 
 wrapper {
-    gradleVersion = '7.0.2'
+    gradleVersion = '7.3.2'
     distributionType = Wrapper.DistributionType.ALL
 }
