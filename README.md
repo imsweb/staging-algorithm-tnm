@@ -1,5 +1,6 @@
 # staging-algorithm-tnm
 
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=imsweb_staging-algorithm-tnm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=imsweb_staging-algorithm-tnm)
 [![integration](https://github.com/imsweb/staging-algorithm-tnm/workflows/integration/badge.svg)](https://github.com/imsweb/staging-algorithm-tnm/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imsweb/staging-algorithm-tnm/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imsweb/staging-algorithm-tnm)
 
@@ -49,7 +50,7 @@ object is thread safe and cached so subsequent calls to `Staging.getInstance()` 
 For example, to get an instance of the TNM algorithm
 
 ```java
-Staging staging = Staging.getInstance(TnmDataProvider.getInstance(TnmVersion.v1_8));
+Staging staging=Staging.getInstance(TnmDataProvider.getInstance(TnmVersion.LATEST));
 ```
 
 ### Schemas
