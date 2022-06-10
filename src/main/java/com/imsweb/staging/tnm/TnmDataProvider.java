@@ -14,9 +14,9 @@ public final class TnmDataProvider extends StagingFileDataProvider {
 
     public enum TnmVersion {
         LATEST("1.9"),
-        v1_9("1.9");
+        V1_9("1.9");
 
-        private String _version;
+        private final String _version;
 
         TnmVersion(String version) {
             _version = version;
@@ -49,13 +49,7 @@ public final class TnmDataProvider extends StagingFileDataProvider {
      * @return the data provider
      */
     public static synchronized TnmDataProvider getInstance(TnmVersion version) {
-        TnmDataProvider provider = _PROVIDERS.get(version);
-
-        if (provider == null) {
-            provider = new TnmDataProvider(version);
-            _PROVIDERS.put(version, provider);
-        }
-
-        return provider;
+        return _PROVIDERS.computeIfAbsent(version, k -> new TnmDataProvider(version));
     }
+
 }
