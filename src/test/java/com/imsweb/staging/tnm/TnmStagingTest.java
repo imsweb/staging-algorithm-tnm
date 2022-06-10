@@ -477,7 +477,7 @@ public class TnmStagingTest extends StagingTest {
         Input ssf1 = urethra.getInputMap().get("ssf1");
         assertNotNull(ssf1);
 
-        assertEquals(ssf1.getMetadata().size(), 3);
+        assertEquals(3, ssf1.getMetadata().size());
         assertTrue(ssf1.getMetadata().contains(new StagingMetadata("COC_REQUIRED")));
         assertTrue(ssf1.getMetadata().contains(new StagingMetadata("CCCR_REQUIRED")));
         assertTrue(ssf1.getMetadata().contains(new StagingMetadata("SEER_REQUIRED")));
