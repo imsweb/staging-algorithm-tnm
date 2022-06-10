@@ -50,7 +50,7 @@ object is thread safe and cached so subsequent calls to `Staging.getInstance()` 
 For example, to get an instance of the TNM algorithm
 
 ```java
-Staging staging=Staging.getInstance(TnmDataProvider.getInstance(TnmVersion.V1_8));
+Staging staging=Staging.getInstance(TnmDataProvider.getInstance(TnmVersion.LATEST));
 ```
 
 ### Schemas
