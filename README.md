@@ -1,18 +1,19 @@
 # staging-algorithm-tnm
 
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=imsweb_staging-algorithm-tnm&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=imsweb_staging-algorithm-tnm)
 [![integration](https://github.com/imsweb/staging-algorithm-tnm/workflows/integration/badge.svg)](https://github.com/imsweb/staging-algorithm-tnm/actions)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/com.imsweb/staging-algorithm-tnm/badge.svg)](https://maven-badges.herokuapp.com/maven-central/com.imsweb/staging-algorithm-tnm)
 
-TNM is a widely accepted system of cancer staging. TNM stands for Tumor, Nodes, and Metastasis. T is assigned based on the extent of involvement at 
-the primary tumor site, N for the extent of involvement in regional lymph nodes, and M for distant spread. Clinical TNM is assigned prior to treatment 
-and pathologic TNM is assigned based on clinical information plus information from surgery. The clinical TNM and the pathologic TNM values are 
+## This project has been moved to [staging-client-java](https://github.com/imsweb/staging-client-java).
+
+TNM is a widely accepted system of cancer staging. TNM stands for Tumor, Nodes, and Metastasis. T is assigned based on the extent of involvement at
+the primary tumor site, N for the extent of involvement in regional lymph nodes, and M for distant spread. Clinical TNM is assigned prior to treatment
+and pathologic TNM is assigned based on clinical information plus information from surgery. The clinical TNM and the pathologic TNM values are
 summarized as clinical stage group or pathologic stage group.
 
-For each cancer site, or schema, valid values, definitions, and registrar notes are provided for clinical TNM and stage group, pathologic TNM and stage 
+For each cancer site, or schema, valid values, definitions, and registrar notes are provided for clinical TNM and stage group, pathologic TNM and stage
 group, and relevant Site-Specific Factors (SSFs).
 
-TNM categories, stage groups, and definitions are based on the Union for International Cancer Control ([UICC](http://www.uicc.org/)) TNM 7th edition 
+TNM categories, stage groups, and definitions are based on the Union for International Cancer Control ([UICC](http://www.uicc.org/)) TNM 7th edition
 classification.  UICC 7th edition and AJCC 7th edition TNM categories and stage groups are very similar; however, there are some differences.
 
 For diagnosis years 2016-2017, SEER Summary Stage 2000 is required. SEER Summary Stage 2000 should be collected manually unless the registry is collecting 
